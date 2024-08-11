@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Tracking
+{% endblock %}
+
+{% block header %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<style>
+    .tableFixHead {
+        overflow-y: auto; /* make the table scrollable if height is more than 200 px  */
+        height: 600px; /* gives an initial height of 200px to the table */
+    }
+    .tableFixHead thead th {
+        position: sticky; /* make the table heads sticky */
+        top: 0px; /* table head will be placed from the top of the table and sticks to it */
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<h1 style="text-align: center;">Tracking</h1>
+<form action="/tracking" method="post">
+    <div class="tableFixHead">
+        <div class="container mt-3">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <div class="row">
+                            <th class="col-sm-1 p-3" style="text-align: center;">Delete</th>
+                            <th class="col-md-4 p-3" style="text-align: center;">Name</th>
+                            <th class="col-md-8 p-3" style="text-align: center;">Price dynamic</th>
+                        </div>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in prod_list %}
+                    <tr>
+                        <td style="text-align: center;">
+                            <input name="link" type="checkbox" value="{{ product[0] }}">
+                        </td>
+                        <td><a href="{{ product[0] }}">{{ product[1] }}</a></td>
+                        <td class="col-md-8 p-3">
+                            <canvas id="myChart{{ loop.index }}" style="width:100%;max-width:800px;"></canvas>
+
+                            <script>
+                                const x{{ loop.index }} = {{product[2] | safe}};
+                                const y{{ loop.index }} = {{product[3] | safe}};
+                                
+                                new Chart("myChart{{ loop.index }}", {
+                                type: "line",
+                                data: {
+                                    labels: x{{ loop.index }},
+                                    datasets: [{
+                                    fill: false,
+                                    lineTension: 0,
+                                    backgroundColor: "rgba(0,0,255,1.0)",
+                                    borderColor: "rgba(0,0,255,0.1)",
+                                    data: y{{ loop.index }}
+                                    }]
+                                },
+                                options: {
+                                    legend: {display: false},
+                                }
+                                });
+                            </script>
+                        </td>
+                    </tr>
+                {% endfor %}        
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <button class="btn btn-secondary" type="submit" style="margin:20px;">Delete</button>
+    </div>
+</form>
+
+{% endblock %}
