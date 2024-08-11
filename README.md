@@ -1,7 +1,7 @@
 # WATCHER
 
 ## CS50
->This was my final project for conclude the CS50 Introduction to Computer Sciense course.
+>This was my final project for conclude the CS50 Introduction to Computer Science course.
 
 >CS50, python, flask web framework, web development, HTML, CSS, JavaScript, sqlite3
 
